@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Our Sweetest Moments 💞</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous">
+
+  <style>
+    :root {
+      --accent:     #ff8acc;
+      --accent-dark:#d63384;
+      --bg-card:    rgba(20,20,35,0.92);
+      --blur:       blur(10px);
+      --glow:       rgba(255,140,180,0.6);
+      --text-light: #f0f0ff;
+    }
+
+    body {
+      background: url("images/bg.jpeg") center / cover no-repeat fixed;
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+      color: var(--text-light);
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .photos-card {
+      background: var(--bg-card);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border-radius: clamp(32px, 8vw, 48px);
+      border: 1px solid rgba(255,105,180,0.16);
+      box-shadow: 0 20px 60px -10px rgba(0,0,0,0.6);
+      padding: clamp(1.6rem, 5vw, 2.2rem) clamp(1.2rem, 4vw, 1.8rem);
+      width: 100%;
+      max-width: 540px;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .title-text {
+      color: var(--accent);
+      font-weight: 900;
+      font-size: clamp(2.2rem, 7vw, 3.2rem);
+      text-shadow: 0 0 25px var(--glow);
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle-text {
+      color: #b0b0ff;
+      opacity: 0.9;
+      font-size: clamp(1rem, 4vw, 1.25rem);
+    }
+
+    .carousel-wrapper {
+      background: linear-gradient(to bottom, rgba(30,30,50,0.7), rgba(100,40,90,0.3));
+      border-radius: 36px;
+      padding: 1rem;
+      box-shadow: 0 0 40px rgba(255,215,0,0.15);
+    }
+
+    .carousel-inner {
+      aspect-ratio: 16 / 9;          /* Portrait-friendly; change to 16/9 or 3/4 if your photos are landscape */
+      overflow: hidden;
+      border-radius: 20px;
+    }
+
+    .carousel-inner img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      border-radius: 20px;
+      border: 5px solid rgba(255,255,255,0.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+      width: 10%;
+      opacity: 0.7;
+      transition: all 0.2s;
+    }
+
+    .carousel-control-prev:hover,
+    .carousel-control-next:hover {
+      opacity: 1;
+    }
+
+    .btn-message {
+      background: linear-gradient(145deg, #7c3aed, #5a1dd4);
+      color: white;
+      border: none;
+      font-weight: 700;
+      padding: clamp(0.9rem, 3vw, 1.1rem) clamp(1.8rem, 6vw, 2.2rem);
+      border-radius: 999px;
+      box-shadow: 0 8px 24px rgba(124,58,237,0.5);
+      transition: all 0.3s ease;
+      font-size: clamp(1.1rem, 4vw, 1.25rem);
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .btn-message:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 36px rgba(124,58,237,0.7);
+    }
+
+    @media (max-width: 576px) {
+      .photos-card {
+        padding: 1.4rem 1rem;
+        border-radius: 32px;
+      }
+      .carousel-wrapper {
+        padding: 0.8rem;
+      }
+      .carousel-inner {
+        aspect-ratio: 3 / 4;      /* Slightly taller on very small phones */
+      }
+    }
+
+    @media (min-width: 768px) {
+      .photos-card {
+        max-width: 580px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="photos-card container-sm">
+    <div class="text-center mb-4">
+      <h2 class="title-text">Our Sweetest Moments 💞</h2>
+      <p class="subtitle-text">(swipe or just watch... ✨)</p>
+    </div>
+
+    <div class="carousel-wrapper mb-4">
+      <div id="memoriesCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3400">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="/images/1.jpg" class="d-block" alt="Sweet memory 1">
+          </div>
+          <div class="carousel-item">
+            <img src="/images/2.jpg" class="d-block" alt="Sweet memory 2">
+          </div>
+          <div class="carousel-item">
+            <img src="/images/4.jpeg" class="d-block" alt="Sweet memory 4">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#memoriesCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#memoriesCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button class="btn btn-message d-inline-flex align-items-center justify-content-center gap-2"
+              onclick="window.location.href='message.html'">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"/>
+        </svg>
+        Read My Letter
+      </button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

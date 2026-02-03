@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Letter to My Bestie 💌</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" 
+        rel="stylesheet" 
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" 
+        crossorigin="anonymous">
+
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --accent: #ff8acc;
+      --accent-dark: #d63384;
+      --bg-card: rgba(20,20,35,0.92);
+      --text-light: #f0f0ff;
+      --blur: blur(10px);
+    }
+
+    body {
+      background: url("images/bg.jpeg") center / cover no-repeat fixed;
+      min-height: 100dvh;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+      color: var(--text-light);
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .message-card {
+      background: var(--bg-card);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border-radius: clamp(32px, 8vw, 48px);
+      border: 1px solid rgba(255,105,180,0.16);
+      box-shadow: 0 20px 60px -10px rgba(0,0,0,0.65);
+      padding: clamp(1.6rem, 5vw, 2.2rem) clamp(1.2rem, 4vw, 1.8rem);
+      width: 100%;
+      max-width: 540px;
+      animation: fadeIn 1s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .title {
+      font-family: 'Pacifico', cursive;
+      color: var(--accent);
+      font-size: clamp(2.2rem, 7vw, 3rem);
+      margin: 0.6rem 0 1.2rem;
+      text-align: center;
+      text-shadow: 0 0 25px rgba(255,140,180,0.5);
+    }
+
+    .envelope-wrapper {
+      position: relative;
+      height: clamp(320px, 70vh, 440px);
+      width: 100%;
+      max-width: 440px;
+      margin: 1.5rem auto 2rem;
+      cursor: pointer;
+      border-radius: 36px;
+      overflow: hidden;
+      box-shadow: inset 0 5px 25px rgba(0,0,0,0.6);
+      background: linear-gradient(to bottom, rgba(30,30,50,0.8), rgba(100,40,90,0.35));
+      transition: transform 0.3s ease;
+    }
+
+    .envelope-wrapper:active {
+      transform: scale(0.98);
+    }
+
+    .cover {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, #2a1a3a, #4a2a5a);
+      z-index: 10;
+      transition: opacity 1.1s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Pacifico', cursive;
+      font-size: clamp(1.8rem, 6vw, 2.4rem);
+      color: var(--accent);
+      text-shadow: 0 3px 12px rgba(0,0,0,0.7);
+    }
+
+    .cover-img {
+      max-width: 70%;
+      max-height: 55%;
+      object-fit: contain;
+      margin-bottom: 1rem;
+      border-radius: 20px;
+      box-shadow: 0 12px 35px rgba(216,27,96,0.4);
+    }
+
+    .cover span {
+      font-size: clamp(1.3rem, 5vw, 1.7rem);
+      opacity: 0.9;
+    }
+
+    .opened .cover {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .message-content {
+      position: absolute;
+      inset: 0;
+      padding: clamp(1.8rem, 5vw, 2.8rem) clamp(1.4rem, 4vw, 2rem);
+      overflow-y: auto;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 1.2s ease-out 0.3s;
+    }
+
+    .opened .message-content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .message-text {
+      font-family: 'Pacifico', cursive;
+      color: #e0e0ff;
+      font-size: clamp(1.2rem, 4.5vw, 1.45rem);
+      line-height: 1.7;
+      margin: 0 0 1.5rem;
+      text-align: left;
+    }
+
+    .emojis {
+      font-size: clamp(2.2rem, 8vw, 3.2rem);
+      margin: 1.5rem 0;
+      text-align: center;
+    }
+
+    .closing {
+      font-size: clamp(1rem, 4vw, 1.2rem);
+      color: var(--accent);
+      margin-top: 1.2rem;
+      font-style: italic;
+      text-align: center;
+      opacity: 0.95;
+    }
+
+    .message-content::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .message-content::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 6px;
+    }
+
+    @media (max-width: 576px) {
+      .message-card {
+        padding: 1.4rem 1rem;
+        border-radius: 32px;
+      }
+      .envelope-wrapper {
+        height: clamp(280px, 65vh, 380px);
+      }
+      .message-content {
+        padding: 1.6rem 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="message-card">
+
+    <div class="text-center mb-3">
+      <h2 class="title">To My Long-Distance Soulmate ♥</h2>
+    </div>
+
+    <div id="envelope" class="envelope-wrapper" 
+         onclick="this.classList.toggle('opened')"
+         role="button" 
+         tabindex="0"
+         aria-label="Tap to open the letter">
+
+      <div class="cover">
+        <img src="images/cover.webp" alt="Envelope with love" class="cover-img">
+        <span>♡ Tap to Open ♡</span>
+      </div>
+
+      <div class="message-content">
+        <p class="message-text">
+          Hey my most favorite person in the whole world...<br><br>
+          
+          You're still the brightest part of my every day — even with all these kilometers between us. We laugh, send each other the dumbest reels and somehow make the distance feel like nothing.<br><br>
+          
+          Only 5 real-life meets so far... but thousands of voice notes, memes, and "ki korchis?" messages. You're my favorite contact, my meme dealer, my comfort person, my everything.<br><br>
+          
+          On your 25th birthday I just want to say: thank you for choosing me as your best friend. May this year bring you endless soft moments, good health, stupid adventures, and at least one (or ten) more meet-ups.<br><br>
+          
+          I love you more than yesterday and way less than tomorrow ♡
+        </p>
+
+        <div class="emojis">💗🐰🌙💌✨</div>
+
+        <div class="closing">
+          Forever your 24/7 bestie — no matter the timezone<br>
+          love you endlessly × infinity
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Optional: keyboard accessibility for envelope -->
+  <script>
+    document.getElementById('envelope').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        this.classList.toggle('opened');
+      }
+    });
+  </script>
+
+</body>
+</html>
