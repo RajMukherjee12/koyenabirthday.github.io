@@ -206,7 +206,12 @@
   window.addEventListener('load', () => {
     tryResumeMusic();
   });
-
+// Inside your existing button onclick or add new listener
+document.querySelector('.btn-surprise').addEventListener('click', () => {
+  localStorage.setItem('musicPlaying', 'true');
+  bgMusic.play().catch(() => console.log("Play started after click"));
+  // ... your existing navigation code: window.location.href = 'surprise.html';
+}, { once: true });
   // For birthday.html specifically: start when clicking "Start the Surprise"
   // (add this only to birthday.html's script section)
   // document.querySelector('.btn-surprise')?.addEventListener('click', () => {
@@ -220,4 +225,5 @@
 </body>
 
 </html>
+
 
