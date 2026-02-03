@@ -212,8 +212,76 @@
       <button class="btn btn-cake" id="lightBtn">🔥 Light the Candle</button>
     </div>
   </div>
+<!-- Background Music -->
+<audio id="bgMusic" loop preload="auto">
+  <source src="music/birthday.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
 
-  <script>
+<!-- Music Controls -->
+<script>
+  const bgMusic = document.getElementById('bgMusic');
+  bgMusic.volume = 0.22; // Adjust 0.1–0.4 for soft background
+
+  function resumeMusic() {
+    const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+    const savedTime = parseFloat(localStorage.getItem('musicTime') || '0');
+
+    if (wasPlaying && !bgMusic.paused) {
+      bgMusic.currentTime = savedTime;
+    }
+
+    bgMusic.play().catch(err => {
+      console.error("Play failed:", err.message);
+      // Most common: "play() failed because the user didn't interact..."
+    });
+  }
+
+  // Save progress every ~3 seconds while playing
+  setInterval(() => {
+    if (!bgMusic.paused && !bgMusic.ended) {
+      localStorage.setItem('musicPlaying', 'true');
+      localStorage.setItem('musicTime', bgMusic.currentTime);
+    }
+  }, 3000);
+
+  // Try resume when page becomes visible (good for tab switch / mobile)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      resumeMusic();
+    }
+  });
+
+  // ------------------------------
+  // Start / Resume only after REAL user gesture
+  // ------------------------------
+
+  // For birthday.html ONLY → tie to the surprise button
+  // (remove or comment out on other pages)
+  const surpriseBtn = document.querySelector('.btn-surprise');
+  if (surpriseBtn) {
+    surpriseBtn.addEventListener('click', () => {
+      localStorage.setItem('musicPlaying', 'true');
+      resumeMusic();
+      console.log("Music triggered from Start button");
+    }, { once: true }); // only first click
+  }
+
+  // Fallback: if music should be playing but isn't → try on any click/tap
+  document.addEventListener('click', () => {
+    if (localStorage.getItem('musicPlaying') === 'true' && bgMusic.paused) {
+      resumeMusic();
+      console.log("Fallback resume on page click");
+    }
+  }, { once: true }); // only once per page load
+
+  // Initial check on load
+  window.addEventListener('load', () => {
+    if (localStorage.getItem('musicPlaying') === 'true') {
+      resumeMusic();
+    }
+  });
+
     const lightBtn = document.getElementById('lightBtn');
     const flame = document.getElementById('flame');
     const happyText = document.getElementById('happyText');
@@ -250,4 +318,5 @@
   </script>
 
 </body>
+
 </html>
