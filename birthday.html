@@ -158,66 +158,75 @@
     </button>
   </div>
 <!-- Background Music (plays from birthday.html onward) -->
+<!-- Background Music -->
 <audio id="bgMusic" loop preload="auto">
-  <source src="music\birthday.mp3" type="audio/mpeg">
+  <source src="music/birthday.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
 
-<!-- Music Control Script -->
+<!-- Music Controls -->
 <script>
   const bgMusic = document.getElementById('bgMusic');
-  bgMusic.volume = 0.22; // soft background level (0.0–1.0)
+  bgMusic.volume = 0.22; // Adjust 0.1–0.4 for soft background
 
-  // Try to resume playing + seek to previous position
-  function tryResumeMusic() {
+  function resumeMusic() {
     const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
     const savedTime = parseFloat(localStorage.getItem('musicTime') || '0');
 
-    if (wasPlaying) {
-      bgMusic.currentTime = savedTime || 0;
-      bgMusic.play().catch(err => {
-        console.log("Autoplay blocked:", err);
-        // On mobile/desktop, may need user gesture first → handled below
-      });
+    if (wasPlaying && !bgMusic.paused) {
+      bgMusic.currentTime = savedTime;
     }
+
+    bgMusic.play().catch(err => {
+      console.error("Play failed:", err.message);
+      // Most common: "play() failed because the user didn't interact..."
+    });
   }
 
-  // Save state every few seconds (for seamless resume)
+  // Save progress every ~3 seconds while playing
   setInterval(() => {
-    if (!bgMusic.paused) {
+    if (!bgMusic.paused && !bgMusic.ended) {
       localStorage.setItem('musicPlaying', 'true');
       localStorage.setItem('musicTime', bgMusic.currentTime);
     }
-  }, 2000);
+  }, 3000);
 
-  // Start/resume on user interaction (required for mobile Safari/Chrome autoplay policy)
-  function startMusicOnInteraction() {
-    if (bgMusic.paused) {
-      bgMusic.play().catch(() => {});
-      localStorage.setItem('musicPlaying', 'true');
+  // Try resume when page becomes visible (good for tab switch / mobile)
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      resumeMusic();
     }
+  });
+
+  // ------------------------------
+  // Start / Resume only after REAL user gesture
+  // ------------------------------
+
+  // For birthday.html ONLY → tie to the surprise button
+  // (remove or comment out on other pages)
+  const surpriseBtn = document.querySelector('.btn-surprise');
+  if (surpriseBtn) {
+    surpriseBtn.addEventListener('click', () => {
+      localStorage.setItem('musicPlaying', 'true');
+      resumeMusic();
+      console.log("Music triggered from Start button");
+    }, { once: true }); // only first click
   }
 
-  // Attach to clicks/taps anywhere on the page (good for first play)
-  document.addEventListener('click', startMusicOnInteraction, { once: true });
-  document.addEventListener('touchstart', startMusicOnInteraction, { once: true });
+  // Fallback: if music should be playing but isn't → try on any click/tap
+  document.addEventListener('click', () => {
+    if (localStorage.getItem('musicPlaying') === 'true' && bgMusic.paused) {
+      resumeMusic();
+      console.log("Fallback resume on page click");
+    }
+  }, { once: true }); // only once per page load
 
-  // Try immediately on load (desktop often allows)
+  // Initial check on load
   window.addEventListener('load', () => {
-    tryResumeMusic();
+    if (localStorage.getItem('musicPlaying') === 'true') {
+      resumeMusic();
+    }
   });
-// Inside your existing button onclick or add new listener
-document.querySelector('.btn-surprise').addEventListener('click', () => {
-  localStorage.setItem('musicPlaying', 'true');
-  bgMusic.play().catch(() => console.log("Play started after click"));
-  // ... your existing navigation code: window.location.href = 'surprise.html';
-}, { once: true });
-  // For birthday.html specifically: start when clicking "Start the Surprise"
-  // (add this only to birthday.html's script section)
-  // document.querySelector('.btn-surprise')?.addEventListener('click', () => {
-  //   localStorage.setItem('musicPlaying', 'true');
-  //   bgMusic.play().catch(() => {});
-  // });
 </script>
   <!-- Optional: Bootstrap JS only if you add more interactive components later -->
   <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> -->
@@ -225,5 +234,6 @@ document.querySelector('.btn-surprise').addEventListener('click', () => {
 </body>
 
 </html>
+
 
 
